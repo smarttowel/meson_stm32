@@ -1,0 +1,67 @@
+[binaries]
+c = 'arm-none-eabi-gcc'
+cpp = 'arm-none-eabi-g++'
+strip = 'arm-none-eabi-strip'
+ld = 'arm-none-eabi-ld'
+objcopy = ['arm-none-eabi-objcopy', '-O', 'binary', '@INPUT@', '@OUTPUT@']
+
+[properties]
+c_args = ['-mcpu=cortex-m7',
+          '-ffunction-sections', 
+          '-fdata-sections', 
+          '-Wall', 
+          '-fstack-usage', 
+          '--specs=nano.specs', 
+          '-mfpu=fpv5-sp-d16', 
+          '-mfloat-abi=hard',
+          '-mthumb',
+          '-DUSE_HAL_DRIVER',
+          '-DSTM32F746xx']
+
+cpp_args = ['-mcpu=cortex-m7',
+            '-ffunction-sections', 
+            '-fdata-sections', 
+            '-Wall', 
+            '-fstack-usage', 
+            '--specs=nano.specs', 
+            '-mfpu=fpv5-sp-d16', 
+            '-mfloat-abi=hard',
+            '-mthumb',
+            '-DUSE_HAL_DRIVER',
+            '-DSTM32F746xx']
+
+c_link_args = ['-mcpu=cortex-m7', 
+               '--specs=nosys.specs', 
+               '-Wl,--gc-sections',
+               '-static',
+               '--specs=nano.specs',
+               '-mfpu=fpv5-sp-d16',
+               '-mfloat-abi=hard',
+               '-mthumb',
+               '-Wl,--start-group',
+               '-lc', 
+               '-lm', 
+               '-lnosys',
+               '-Wl,--end-group']
+
+cxx_link_args = ['-mcpu=cortex-m7', 
+                 '--specs=nosys.specs', 
+                 '-Wl,--gc-sections',
+                 '-static',
+                 '--specs=nano.specs',
+                 '-mfpu=fpv5-sp-d16',
+                 '-mfloat-abi=hard',
+                 '-mthumb',
+                 '-Wl,--start-group',
+                 '-lc', 
+                 '-lm', 
+                 '-lnosys',
+                 '-Wl,--end-group']
+linker_script = 'cube/STM32F746NGHx_FLASH.ld'
+startup_file = 'cube/startup_stm32f746xx.s'
+
+[host_machine]
+system     = 'none'
+cpu_family = 'arm'
+cpu        = 'cortex-m7'
+endian     = 'little'

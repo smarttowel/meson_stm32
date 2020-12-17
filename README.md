@@ -1,1 +1,1 @@
-# meson_stm32
+Meson helpers for stm32 programming
