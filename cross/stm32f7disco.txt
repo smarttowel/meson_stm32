@@ -6,57 +6,31 @@ ld = 'arm-none-eabi-ld'
 objcopy = ['arm-none-eabi-objcopy', '-O', 'binary', '@INPUT@', '@OUTPUT@']
 
 [properties]
-c_args = ['-mcpu=cortex-m7',
-          '-ffunction-sections', 
-          '-fdata-sections', 
-          '-Wall', 
-          '-fstack-usage', 
-          '--specs=nano.specs', 
-          '-mfpu=fpv5-sp-d16', 
-          '-mfloat-abi=hard',
-          '-mthumb',
-          '-DUSE_HAL_DRIVER',
-          '-DSTM32F746xx']
+common_defines = ['-DUSE_HAL_DRIVER',
+                  '-DSTM32F746xx']
+common_compiler_args = ['-mcpu=cortex-m7',
+                        '-ffunction-sections', 
+                        '-fdata-sections', 
+                        '-Wall', 
+                        '-fstack-usage', 
+                        '-specs=nosys.specs', 
+                        '-specs=nano.specs',
+                        '-mfpu=fpv5-sp-d16',
+                        '-mfloat-abi=hard',
+                        '-mthumb']
+common_linker_args = ['-mcpu=cortex-m7', 
+                      '-Wl,--gc-sections',
+                      '-static',
+                      '-specs=nosys.specs', 
+                      '-specs=nano.specs',
+                      '-mfpu=fpv5-sp-d16',
+                      '-mfloat-abi=hard',
+                      '-mthumb']
+c_args = common_compiler_args + common_defines
+cpp_args = common_compiler_args + common_defines
+c_link_args = common_linker_args
+cpp_link_args = common_linker_args
 
-cpp_args = ['-mcpu=cortex-m7',
-            '-ffunction-sections', 
-            '-fdata-sections', 
-            '-Wall', 
-            '-fstack-usage', 
-            '--specs=nano.specs', 
-            '-mfpu=fpv5-sp-d16', 
-            '-mfloat-abi=hard',
-            '-mthumb',
-            '-DUSE_HAL_DRIVER',
-            '-DSTM32F746xx']
-
-c_link_args = ['-mcpu=cortex-m7', 
-               '--specs=nosys.specs', 
-               '-Wl,--gc-sections',
-               '-static',
-               '--specs=nano.specs',
-               '-mfpu=fpv5-sp-d16',
-               '-mfloat-abi=hard',
-               '-mthumb',
-               '-Wl,--start-group',
-               '-lc', 
-               '-lm', 
-               '-lnosys',
-               '-Wl,--end-group']
-
-cxx_link_args = ['-mcpu=cortex-m7', 
-                 '--specs=nosys.specs', 
-                 '-Wl,--gc-sections',
-                 '-static',
-                 '--specs=nano.specs',
-                 '-mfpu=fpv5-sp-d16',
-                 '-mfloat-abi=hard',
-                 '-mthumb',
-                 '-Wl,--start-group',
-                 '-lc', 
-                 '-lm', 
-                 '-lnosys',
-                 '-Wl,--end-group']
 linker_script = 'cube/STM32F746NGHx_FLASH.ld'
 startup_file = 'cube/startup_stm32f746xx.s'
 

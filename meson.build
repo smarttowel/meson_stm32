@@ -1,6 +1,6 @@
-project('stm', 'c',
+project('discoled', 'c', 'cpp',
     version : '0.1',
-    default_options : ['warning_level=3', 'cpp_std=c++14'])
+    default_options : ['warning_level=3', 'cpp_std=c++17'])
 
 subdir('cube_dep')
 
