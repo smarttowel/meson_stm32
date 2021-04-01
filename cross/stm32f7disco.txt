@@ -1,11 +1,5 @@
-[binaries]
-c = 'arm-none-eabi-gcc'
-cpp = 'arm-none-eabi-g++'
-strip = 'arm-none-eabi-strip'
-ld = 'arm-none-eabi-ld'
-objcopy = ['arm-none-eabi-objcopy', '-O', 'binary', '@INPUT@', '@OUTPUT@']
-
-[properties]
+[constants]
+toolchain = '/opt/cross/toolchain_stm/bin/'
 common_defines = ['-DUSE_HAL_DRIVER',
                   '-DSTM32F746xx']
 common_compiler_args = ['-mcpu=cortex-m7',
@@ -20,17 +14,28 @@ common_compiler_args = ['-mcpu=cortex-m7',
                         '-mthumb']
 common_linker_args = ['-mcpu=cortex-m7', 
                       '-Wl,--gc-sections',
+                      '-Wl,--undefined=uxTopUsedPriority',
                       '-static',
                       '-specs=nosys.specs', 
                       '-specs=nano.specs',
                       '-mfpu=fpv5-sp-d16',
                       '-mfloat-abi=hard',
                       '-mthumb']
+
+[binaries]
+c = toolchain / 'arm-none-eabi-gcc'
+cpp = toolchain / 'arm-none-eabi-g++'
+strip = toolchain / 'arm-none-eabi-strip'
+ld = toolchain / 'arm-none-eabi-ld'
+objcopy = [toolchain / 'arm-none-eabi-objcopy', '-O', 'ihex', '@INPUT@', '@OUTPUT@']
+
+[built-in options]
 c_args = common_compiler_args + common_defines
 cpp_args = common_compiler_args + common_defines
 c_link_args = common_linker_args
 cpp_link_args = common_linker_args
 
+[properties]
 linker_script = 'cube/STM32F746NGHx_FLASH.ld'
 startup_file = 'cube/startup_stm32f746xx.s'
 
